@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>二林花生栽培・終極行動智庫 2026</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuS6jOael+iKseS4iOeJmueUuOeZvOaZuOW6qyIsCiAgInNob3J0X25hbWUiOiAi6Iqx5Yqf5pm45bqrIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmNGY2ZjAiLAogICJ0aGVtZV9jb2xvciI6ICIjMWI0ZDNhIiwKICAiaWNvbnMiOiBbXQp9">
+    <meta name="theme-color" content="#1b4d3a">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap');
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f4f6f0;
+            transition: background-color 0.2s ease;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* 語音朗讀按鈕動畫 */
+        @keyframes pulse-speak {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .speaking-active {
+            animation: pulse-speak 0.8s infinite;
+            background-color: #ef4444 !important;
+            color: white !important;
+        }
+        
+        /* 高齡農友友善：全域等比例放大字體樣式 */
+        .large-text .text-xs { font-size: 0.95rem !important; line-height: 1.6 !important; }
+        .large-text .text-sm { font-size: 1.1rem !important; line-height: 1.6 !important; }
+        .large-text .text-base { font-size: 1.25rem !important; }
+        .large-text .text-\[11px\] { font-size: 0.9rem !important; line-height: 1.6 !important; }
+        .large-text .text-\[10px\] { font-size: 0.85rem !important; line-height: 1.5 !important; }
+        .large-text .text-\[9px\] { font-size: 0.8rem !important; line-height: 1.5 !important; }
+        .large-text p, .large-text span, .large-text label, .large-text td, .large-text li, .large-text th {
+            line-height: 1.6 !important;
+        }
+        .large-text .font-bold { font-weight: 800 !important; }
+        
+        /* 離線提示橫幅 */
+        .offline-banner {
+            background: #fef3c7;
+            color: #92400e;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 6px 12px;
+            display: none;
+        }
+        .offline-banner.show { display: block; }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 pb-20">
+
+    <!-- 離線提示 -->
+    <div id="offline-banner" class="offline-banner">
+        📡 您目前處於離線模式 — 已快取的內容仍可正常查閱
+    </div>
+
+    <!-- 頂部導覽列 -->
+    <header class="bg-[#1b4d3a] text-white py-6 px-4 shadow-md sticky top-0 z-50">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl">🥜</span>
+                <div>
+                    <h1 class="text-lg font-bold tracking-wider">二林花生栽培智庫</h1>
+                    <p class="text-xs text-emerald-200">2026 秋作APP · 支援離線</p>
+                </div>
+            </div>
+            
+            <div class="flex flex-col items-end space-y-1">
+                <button onclick="toggleFontSize()" id="font-toggle-btn" class="bg-emerald-800 text-emerald-100 text-[11px] font-bold px-2.5 py-1 rounded-full border border-emerald-600 flex items-center space-x-1 hover:bg-emerald-700 transition-colors focus:outline-none">
+                    <i data-lucide="zoom-in" class="w-3.5 h-3.5"></i>
+                    <span>放大字體</span>
+                </button>
+                <span class="text-[9px] text-emerald-300 font-bold tracking-wider">彰化二林專用</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主容器 -->
+    <main id="app-main" class="max-w-md mx-auto px-4 mt-4">
+
+        <!-- 導覽切換 Tabs -->
+        <div class="bg-white rounded-xl p-1 shadow-sm flex mb-4 border border-emerald-100/50">
+            <button onclick="switchTab('guide')" id="tab-guide" class="flex-1 py-2.5 text-xs font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-1 bg-[#1b4d3a] text-white">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>栽培指南</span>
+            </button>
+            <button onclick="switchTab('calculator')" id="tab-calculator" class="flex-1 py-2.5 text-xs font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-1 text-slate-500 hover:text-slate-800">
+                <i data-lucide="calculator" class="w-4 h-4"></i>
+                <span>智慧計算機</span>
+            </button>
+            <button onclick="switchTab('schedule')" id="tab-schedule" class="flex-1 py-2.5 text-xs font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-1 text-slate-500 hover:text-slate-800">
+                <i data-lucide="calendar" class="w-4 h-4"></i>
+                <span>客製化排程</span>
+            </button>
+        </div>
+
+        <!-- ================= TAB 1: 栽培指南 ================= -->
+        <section id="content-guide" class="space-y-4">
+            
+            <!-- 卡片 1: 優良品種與輪作 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-emerald-50 overflow-hidden">
+                <button onclick="toggleSection('guide-sprout')" id="guide-sprout-header" class="w-full flex items-center justify-between p-5 text-left focus:outline-none hover:bg-slate-50/50 transition-colors">
+                    <div class="flex items-center space-x-2">
+                        <div class="p-1.5 bg-emerald-50 rounded-lg text-emerald-700">
+                            <i data-lucide="sprout" class="w-5 h-5"></i>
+                        </div>
+                        <h2 class="text-base font-bold text-[#1b4d3a]">🌱 優良品種與輪作</h2>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="event.stopPropagation(); speakSection('guide-sprout')" class="text-[10px] bg-amber-100 text-amber-800 px-2 py-1 rounded-full font-bold hover:bg-amber-200 transition-colors flex items-center space-x-1" title="語音朗讀">
+                            <i data-lucide="volume-2" class="w-3 h-3"></i>
+                            <span>播報</span>
+                        </button>
+                        <i data-lucide="chevron-down" id="guide-sprout-icon" class="w-5 h-5 text-slate-400 transition-transform duration-200 rotate-180"></i>
+                    </div>
+                </button>
+                
+                <div id="guide-sprout" class="px-5 pb-5 border-t border-slate-100/60 pt-4 space-y-3">
+                    <div class="p-3 bg-emerald-50/50 rounded-xl border border-emerald-100/50">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-bold text-sm text-[#1b4d3a]">臺南選 9 號 (大宗)</span>
+                            <span class="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full">砂質壤土首選</span>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">特性：產量高、網紋深、耐旱性佳、抗病性相對穩定，為二林地區最普及之栽培品種。</p>
+                    </div>
+                    <div class="p-3 bg-amber-50/40 rounded-xl border border-amber-100/50">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-bold text-sm text-amber-950">臺南 14 號</span>
+                            <span class="text-[10px] bg-amber-600 text-white px-2 py-0.5 rounded-full">早熟大粒</span>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">特性：生育期短、飽滿度高。適合與小麥、馬鈴薯進行緊湊輪作之農友選擇。</p>
+                    </div>
+                    <div class="p-3 bg-purple-50/50 rounded-xl border border-purple-100/50">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-bold text-sm text-purple-950">黑金剛 (精緻)</span>
+                            <span class="text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded-full">高單價市場</span>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">特性：種皮深紫色、富含花青素、香氣濃郁。適合自有品牌與精緻包裝銷售。</p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-dashed border-slate-100">
+                        <h3 class="text-xs font-bold text-slate-500 mb-2">🔄 推薦輪作模式</h3>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="p-2.5 bg-red-50 rounded-lg border border-red-100 text-center">
+                                <span class="text-[10px] text-red-600 font-bold block">🚨 嚴禁連作</span>
+                                <span class="text-xs text-slate-700 font-medium">花生 / 豆科作物</span>
+                                <p class="text-[10px] text-red-500 mt-1 text-left leading-relaxed">連作易致線蟲暴增、土傳病害加劇及微量元素耗竭。</p>
+                            </div>
+                            <div class="p-2.5 bg-emerald-50 rounded-lg border border-emerald-100 text-center">
+                                <span class="text-[10px] text-emerald-700 font-bold block">👍 推薦前作</span>
+                                <span class="text-xs text-slate-700 font-medium">小麥 / 玉米 / 水稻</span>
+                                <p class="text-[10px] text-emerald-600 mt-1 text-left leading-relaxed">禾本科可有效中斷土傳病害生命循環，改善土壤結構。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 2: 土壤準備與送驗 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-emerald-50 overflow-hidden">
+                <button onclick="toggleSection('guide-soil')" id="guide-soil-header" class="w-full flex items-center justify-between p-5 text-left focus:outline-none hover:bg-slate-50/50 transition-colors">
+                    <div class="flex items-center space-x-2">
+                        <div class="p-1.5 bg-emerald-50 rounded-lg text-emerald-700">
+                            <i data-lucide="test-tube" class="w-5 h-5"></i>
+                        </div>
+                        <h2 class="text-base font-bold text-[#1b4d3a]">🧪 土壤調酸與送驗指南</h2>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="event.stopPropagation(); speakSection('guide-soil')" class="text-[10px] bg-amber-100 text-amber-800 px-2 py-1 rounded-full font-bold hover:bg-amber-200 transition-colors flex items-center space-x-1">
+                            <i data-lucide="volume-2" class="w-3 h-3"></i>
+                            <span>播報</span>
+                        </button>
+                        <i data-lucide="chevron-down" id="guide-soil-icon" class="w-5 h-5 text-slate-400 transition-transform duration-200"></i>
+                    </div>
+                </button>
+                
+                <div id="guide-soil" class="hidden px-5 pb-5 border-t border-slate-100/60 pt-4 space-y-3">
+                    <p class="text-xs text-slate-600 mb-3 leading-relaxed">
+                        花生喜好微酸至中性土壤 (<span class="font-bold text-emerald-700">pH 6.0 - 6.5</span>)。強酸性土壤會抑制根瘤菌活性，並造成鈣質吸收障礙，極易產生空殼。
+                    </p>
+                    <div class="bg-amber-50 border border-amber-100 rounded-xl p-3 mb-4">
+                        <div class="flex items-center space-x-1.5 text-amber-800 font-bold text-xs mb-1">
+                            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>
+                            <span>石灰施用鐵律</span>
+                        </div>
+                        <p class="text-[11px] text-amber-700 leading-relaxed">
+                            撒施苦土石灰後，<span class="underline font-bold">必須深耕整地並灌水濕潤，且至少間隔 14 天以上</span>方可播種，否則強鹼化學反應會嚴重燒傷幼苗根系！
+                        </p>
+                    </div>
+                    <div class="border-t border-slate-100 pt-3">
+                        <div class="flex items-center justify-between text-xs font-bold text-slate-700 mb-2">
+                            <span>📬 免費土壤檢測窗口</span>
+                            <span class="text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">約 7-10 天出報告</span>
+                        </div>
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between items-center p-2 bg-slate-50 rounded-lg">
+                                <div>
+                                    <p class="font-bold text-slate-800">臺中區農業改良場</p>
+                                    <p class="text-[10px] text-slate-500">土壤肥料研究室</p>
+                                </div>
+                                <a href="tel:048523101" class="text-emerald-700 font-bold bg-white px-2.5 py-1 rounded border border-slate-200 flex items-center space-x-1">
+                                    <i data-lucide="phone" class="w-3 h-3"></i>
+                                    <span>撥打</span>
+                                </a>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-50 rounded-lg">
+                                <div>
+                                    <p class="font-bold text-slate-800">二林鎮農會推廣股</p>
+                                    <p class="text-[10px] text-slate-500">協助採樣與公費送件</p>
+                                </div>
+                                <a href="tel:048961191" class="text-emerald-700 font-bold bg-white px-2.5 py-1 rounded border border-slate-200 flex items-center space-x-1">
+                                    <i data-lucide="phone" class="w-3 h-3"></i>
+                                    <span>撥打</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 3: 田間管理與成熟度 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-emerald-50 overflow-hidden">
+                <button onclick="toggleSection('guide-water')" id="guide-water-header" class="w-full flex items-center justify-between p-5 text-left focus:outline-none hover:bg-slate-50/50 transition-colors">
+                    <div class="flex items-center space-x-2">
+                        <div class="p-1.5 bg-emerald-50 rounded-lg text-emerald-700">
+                            <i data-lucide="droplet" class="w-5 h-5"></i>
+                        </div>
+                        <h2 class="text-base font-bold text-[#1b4d3a]">⚙️ 田間水分與成熟判準</h2>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="event.stopPropagation(); speakSection('guide-water')" class="text-[10px] bg-amber-100 text-amber-800 px-2 py-1 rounded-full font-bold hover:bg-amber-200 transition-colors flex items-center space-x-1">
+                            <i data-lucide="volume-2" class="w-3 h-3"></i>
+                            <span>播報</span>
+                        </button>
+                        <i data-lucide="chevron-down" id="guide-water-icon" class="w-5 h-5 text-slate-400 transition-transform duration-200"></i>
+                    </div>
+                </button>
+                
+                <div id="guide-water" class="hidden px-5 pb-5 border-t border-slate-100/60 pt-4 space-y-3">
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-700 mb-1">灌溉黃金期與手感法</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            <span class="font-bold text-slate-800">手感測試：</span>隨手抓取表土捏成團，落地後輕碰即散→水份適中；落地後自然碎裂→可維持 1～2 天；無法捏成團→需立即灌溉。<br>
+                            <span class="font-bold text-red-600">開花後 30-60 天</span>為莢果發育關鍵期，若連乾 7 天無雨，必須進行「跑溝水」(速灌速排)。
+                        </p>
+                    </div>
+                    <div class="border-t border-slate-100 pt-3">
+                        <h4 class="text-xs font-bold text-slate-700 mb-2">收穫成熟度「三看」指標</h4>
+                        <div class="grid grid-cols-3 gap-2 text-center">
+                            <div class="p-2 bg-slate-50 rounded-lg border border-slate-100">
+                                <span class="text-[10px] text-slate-500 block">一看外殼</span>
+                                <span class="text-xs font-bold text-slate-700">網紋深刻</span>
+                            </div>
+                            <div class="p-2 bg-slate-50 rounded-lg border border-slate-100">
+                                <span class="text-[10px] text-slate-500 block">二看種皮</span>
+                                <span class="text-xs font-bold text-[#1b4d3a]">莢殼內壁黑褐色</span>
+                            </div>
+                            <div class="p-2 bg-slate-50 rounded-lg border border-slate-100">
+                                <span class="text-[10px] text-slate-500 block">三看全株</span>
+                                <span class="text-xs font-bold text-slate-700">基部黃化50%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 4: 病蟲害防治 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-emerald-50 overflow-hidden">
+                <button onclick="toggleSection('guide-pest')" id="guide-pest-header" class="w-full flex items-center justify-between p-5 text-left focus:outline-none hover:bg-slate-50/50 transition-colors">
+                    <div class="flex items-center space-x-2">
+                        <div class="p-1.5 bg-emerald-50 rounded-lg text-emerald-700">
+                            <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                        </div>
+                        <h2 class="text-base font-bold text-[#1b4d3a]">🛡️ 病蟲害精準防治</h2>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="event.stopPropagation(); speakSection('guide-pest')" class="text-[10px] bg-amber-100 text-amber-800 px-2 py-1 rounded-full font-bold hover:bg-amber-200 transition-colors flex items-center space-x-1">
+                            <i data-lucide="volume-2" class="w-3 h-3"></i>
+                            <span>播報</span>
+                        </button>
+                        <i data-lucide="chevron-down" id="guide-pest-icon" class="w-5 h-5 text-slate-400 transition-transform duration-200"></i>
+                    </div>
+                </button>
+                
+                <div id="guide-pest" class="hidden px-5 pb-5 border-t border-slate-100/60 pt-4 space-y-3">
+                    <div class="overflow-x-auto no-scrollbar">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="border-b border-slate-200 text-slate-500">
+                                    <th class="pb-2 font-bold">危害對象</th>
+                                    <th class="pb-2 font-bold">推薦資材/方法</th>
+                                    <th class="pb-2 font-bold text-right">安全採收期</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-slate-600">
+                                <tr>
+                                    <td class="py-2.5 font-bold text-slate-800">葉斑病</td>
+                                    <td class="py-2.5">25% 咪鮮胺乳油 2000倍</td>
+                                    <td class="py-2.5 text-right text-amber-700 font-bold">14 天</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2.5 font-bold text-slate-800">銹病</td>
+                                    <td class="py-2.5">25% 菲克利乳油 1500倍</td>
+                                    <td class="py-2.5 text-right text-amber-700 font-bold">21 天</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2.5 font-bold text-slate-800">斜紋夜盜蛾</td>
+                                    <td class="py-2.5">蘇力菌 1000倍 + 性費洛蒙</td>
+                                    <td class="py-2.5 text-right text-emerald-700 font-bold">無限制</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2.5 font-bold text-slate-800">薊馬類</td>
+                                    <td class="py-2.5">噻蟲嗪 (播種前拌種)</td>
+                                    <td class="py-2.5 text-right text-slate-500">苗期防護</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-red-50 border border-red-100 rounded-xl p-3 mt-3">
+                        <div class="flex items-center space-x-1.5 text-red-800 font-bold text-xs mb-1">
+                            <i data-lucide="ban" class="w-4 h-4 text-red-600"></i>
+                            <span>花生禁用/慎用藥劑</span>
+                        </div>
+                        <ul class="text-[11px] text-red-700 space-y-1 list-disc pl-4">
+                            <li><span class="font-bold">硫醯尿素類除草劑：</span>對花生極度敏感，誤噴將導致整田枯死。</li>
+                            <li><span class="font-bold">高濃度銅劑殺菌劑：</span>容易造成嫩葉藥害與灼傷，開花期禁施。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 5: 颱風應變 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-emerald-50 overflow-hidden">
+                <button onclick="toggleSection('guide-typhoon')" id="guide-typhoon-header" class="w-full flex items-center justify-between p-5 text-left focus:outline-none hover:bg-slate-50/50 transition-colors">
+                    <div class="flex items-center space-x-2">
+                        <div class="p-1.5 bg-emerald-50 rounded-lg text-emerald-700">
+                            <i data-lucide="wind" class="w-5 h-5"></i>
+                        </div>
+                        <h2 class="text-base font-bold text-[#1b4d3a]">🌀 颱風 / 豪雨應變 SOP</h2>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="event.stopPropagation(); speakSection('guide-typhoon')" class="text-[10px] bg-amber-100 text-amber-800 px-2 py-1 rounded-full font-bold hover:bg-amber-200 transition-colors flex items-center space-x-1">
+                            <i data-lucide="volume-2" class="w-3 h-3"></i>
+                            <span>播報</span>
+                        </button>
+                        <i data-lucide="chevron-down" id="guide-typhoon-icon" class="w-5 h-5 text-slate-400 transition-transform duration-200"></i>
+                    </div>
+                </button>
+                
+                <div id="guide-typhoon" class="hidden px-5 pb-5 border-t border-slate-100/60 pt-4 space-y-3 bg-gradient-to-br from-emerald-950 to-slate-900 text-white rounded-b-2xl">
+                    <div class="space-y-3 text-xs text-emerald-100/90 leading-relaxed">
+                        <div class="border-l-2 border-emerald-500 pl-3">
+                            <p class="font-bold text-white text-xs">【颱風侵襲前】</p>
+                            <p>巡視並徹底清理田間排水溝；停止任何施肥作業。</p>
+                        </div>
+                        <div class="border-l-2 border-amber-500 pl-3">
+                            <p class="font-bold text-white text-xs">【退水黃金 24 小時內】</p>
+                            <p>首要任務為排除田間積水（<span class="text-amber-300 font-bold">泡水超過 48 小時，莢果全毀</span>）。積水退去後，立即全園噴施 25% 咪鮮胺乳油 2000 倍防葉斑病爆發。</p>
+                        </div>
+                        <div class="border-l-2 border-red-400 pl-3">
+                            <p class="font-bold text-white text-xs">【若泡水超過 2 天】</p>
+                            <p>不建議繼續保留至完全成熟。考慮提早採收，轉作「鮮食水煮花生」減少損失。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ================= TAB 2: 智慧計算機 ================= -->
+        <section id="content-calculator" class="space-y-4 hidden">
+            
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-emerald-50">
+                <div class="flex items-center space-x-2 mb-3">
+                    <div class="p-1.5 bg-emerald-50 rounded-lg text-emerald-700">
+                        <i data-lucide="scale" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="text-base font-bold text-[#1b4d3a]">📐 苦土石灰用量計算機</h2>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">1. 輸入種植面積 (單位：分地)</label>
+                        <input type="number" id="calc-area" value="1.0" step="0.1" min="0.1" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600" oninput="calculateAll(); saveData();">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">2. 選擇土壤實測 pH 值</label>
+                        <select id="calc-ph" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600" onchange="calculateAll(); saveData();">
+                            <option value="none">尚未檢測 / 不需要調整 (pH > 6.5)</option>
+                            <option value="light">輕微酸性 (pH 6.0 - 6.5)</option>
+                            <option value="medium" selected>中度酸性 (pH 5.5 - 6.0)</option>
+                            <option value="heavy">重度酸性 (pH 5.0 - 5.5)</option>
+                            <option value="extreme">極度酸性 (pH < 5.0)</option>
+                        </select>
+                    </div>
+
+                    <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+                        <span class="text-[10px] text-emerald-700 font-bold block mb-1">📊 計算結果</span>
+                        <div class="flex justify-between items-baseline">
+                            <span class="text-xs text-slate-700">苦土石灰建議總量：</span>
+                            <span class="text-lg font-black text-[#1b4d3a]" id="lime-result">90 公斤</span>
+                        </div>
+                        <p class="text-[10px] text-slate-500 mt-1" id="lime-tip"></p>
+                        <div id="lime-warning-box" class="hidden mt-2 p-2.5 bg-red-100 border border-red-200 text-red-700 text-[11px] rounded-lg font-bold">
+                            ⚠️ 單次施用建議不超過 200 公斤／分地，超量請分兩次施用，間隔 30 天以上。
+                        </div>
+                        <div class="mt-3 pt-2.5 border-t border-emerald-100/50 flex justify-end">
+                            <button onclick="jumpToSection('guide-soil')" class="text-xs text-emerald-800 font-bold hover:text-[#1b4d3a] flex items-center space-x-1 underline">
+                                <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                                <span>📖 讀取指南</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 補鈣計算機 -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-emerald-50">
+                <div class="flex items-center space-x-2 mb-3">
+                    <div class="p-1.5 bg-emerald-50 rounded-lg text-emerald-700">
+                        <i data-lucide="activity" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="text-base font-bold text-[#1b4d3a]">🦴 莢果期補鈣計算機</h2>
+                </div>
+                
+                <p class="text-[11px] text-emerald-800 bg-emerald-50 border border-emerald-100/50 px-3 py-1.5 rounded-lg font-medium mb-3">
+                    📍 面積自動沿用上方設定
+                </p>
+
+                <div class="space-y-4">
+                    <div class="flex space-x-3">
+                        <label class="flex-1 p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center space-x-2 cursor-pointer hover:bg-emerald-50/30">
+                            <input type="radio" name="calcium-type" value="gypsum" checked class="text-emerald-700" onchange="calculateAll(); saveData();">
+                            <div class="text-left">
+                                <span class="text-xs font-bold block text-slate-800">硫酸鈣 (石膏)</span>
+                                <span class="text-[9px] text-slate-500">不影響酸鹼度，補鈣首選</span>
+                            </div>
+                        </label>
+                        <label class="flex-1 p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center space-x-2 cursor-pointer hover:bg-emerald-50/30">
+                            <input type="radio" name="calcium-type" value="superphosphate" class="text-emerald-700" onchange="calculateAll(); saveData();">
+                            <div class="text-left">
+                                <span class="text-xs font-bold block text-slate-800">過磷酸鈣</span>
+                                <span class="text-[9px] text-slate-500">兼補磷肥</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
+                        <span class="text-[10px] text-blue-700 font-bold block mb-1">🦴 補鈣量推薦</span>
+                        <div class="flex justify-between items-baseline">
+                            <span class="text-xs text-slate-700" id="calcium-label">硫酸鈣(石膏) 建議用量：</span>
+                            <span class="text-lg font-black text-blue-900" id="calcium-result">35 公斤</span>
+                        </div>
+                        <p class="text-[11px] text-blue-600 mt-1.5 leading-relaxed">
+                            施用時機：開花後 30-40 天，將鈣肥集中撒施於行間，隨即中耕培土。
+                        </p>
+                        <div class="mt-3 pt-2.5 border-t border-blue-200/50 flex justify-end">
+                            <button onclick="jumpToSection('guide-water')" class="text-xs text-blue-800 font-bold hover:text-blue-900 flex items-center space-x-1 underline">
+                                <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                                <span>📖 讀取指南</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 收益預估 -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-emerald-50">
+                <div class="flex items-center space-x-2 mb-3">
+                    <div class="p-1.5 bg-emerald-50 rounded-lg text-emerald-700">
+                        <i data-lucide="trending-up" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="text-base font-bold text-[#1b4d3a]">📊 產量與收益估算</h2>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">預估乾莢果收購價 (元 / 台斤)</label>
+                        <input type="number" id="calc-price" value="45" min="10" max="150" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600" oninput="calculateAll(); saveData();">
+                    </div>
+
+                    <div class="space-y-2.5">
+                        <div class="flex justify-between items-center p-2.5 bg-emerald-50/50 rounded-lg border border-emerald-100/50">
+                            <div>
+                                <span class="text-xs font-bold text-emerald-950 block">🏆 高標產量</span>
+                                <span class="text-[10px] text-[#1b4d3a] font-medium" id="yield-high-qty"></span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-sm font-black text-[#1b4d3a]" id="revenue-high"></span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                            <div>
+                                <span class="text-xs font-bold text-slate-800 block">👌 標準產量</span>
+                                <span class="text-[10px] text-slate-600 font-medium" id="yield-normal-qty"></span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-sm font-bold text-slate-700" id="revenue-normal"></span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center p-2.5 bg-red-50/40 rounded-lg border border-red-100/40">
+                            <div>
+                                <span class="text-xs font-bold text-red-950 block">⚠️ 低標產量</span>
+                                <span class="text-[10px] text-red-600 font-medium" id="yield-low-qty"></span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-sm font-bold text-red-700" id="revenue-low"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ================= TAB 3: 客製化排程 ================= -->
+        <section id="content-schedule" class="space-y-4 hidden">
+            
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-emerald-50">
+                <div class="flex items-center space-x-2 mb-3">
+                    <div class="p-1.5 bg-emerald-50 rounded-lg text-emerald-700">
+                        <i data-lucide="settings" class="w-5 h-5"></i>
+                    </div>
+                    <h2 class="text-base font-bold text-[#1b4d3a]">📅 設定播種日期</h2>
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">實際 / 預計播種日期</label>
+                    <input type="date" id="plant-date" value="2026-08-01" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600" onchange="generateCustomSchedule(); saveData();">
+                    <p class="text-[11px] text-amber-700 mt-1.5 font-medium leading-relaxed">
+                        🎯 最佳播種日期：8月1日 ± 3天，即 7月29日 ～ 8月4日 為黃金窗口。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 時間軸排程（精簡版，保留核心結構） -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-emerald-50">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="p-1.5 bg-emerald-50 rounded-lg text-emerald-700">
+                            <i data-lucide="route" class="w-5 h-5"></i>
+                        </div>
+                        <h2 class="text-base font-bold text-[#1b4d3a]">🌱 客製化栽培曆</h2>
+                    </div>
+                </div>
+
+                <div class="space-y-6 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-emerald-100 before:block">
+                    
+                    <!-- 節點 1 -->
+                    <div class="relative pl-8">
+                        <div class="absolute left-1.5 top-1 w-4 h-4 rounded-full bg-emerald-700 border-2 border-white ring-4 ring-emerald-50"></div>
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xs font-bold text-slate-800">一、整地與預防性施藥</h3>
+                                <p class="text-[10px] text-[#1b4d3a] font-medium mt-0.5">準備期</p>
+                            </div>
+                            <span class="text-[11px] font-bold text-slate-500" id="step-1-date">2026/06/20 ~ 2026/07/15</span>
+                        </div>
+                        <div class="space-y-1.5 text-[11px] text-slate-600">
+                            <label class="flex items-start space-x-2 cursor-pointer">
+                                <input type="checkbox" class="rounded text-emerald-700 mt-0.5" onchange="saveCheckboxes()">
+                                <span>土壤送驗 (確認 pH 與鈣含量)</span>
+                            </label>
+                            <label class="flex items-start space-x-2 cursor-pointer">
+                                <input type="checkbox" class="rounded text-emerald-700 mt-0.5" onchange="saveCheckboxes()">
+                                <span>採購種子：臺南選 9 號或臺南 14 號</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 節點 2 -->
+                    <div class="relative pl-8">
+                        <div class="absolute left-1.5 top-1 w-4 h-4 rounded-full bg-emerald-700 border-2 border-white ring-4 ring-emerald-50"></div>
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xs font-bold text-slate-800">二、播種與萌前除草</h3>
+                                <p class="text-[10px] text-[#1b4d3a] font-medium mt-0.5">播種期</p>
+                            </div>
+                            <span class="text-[11px] font-bold text-[#1b4d3a]" id="step-2-date">2026/07/25 ~ 2026/08/10</span>
+                        </div>
+                        <div class="space-y-1.5 text-[11px] text-slate-600">
+                            <label class="flex items-start space-x-2 cursor-pointer">
+                                <input type="checkbox" class="rounded text-emerald-700 mt-0.5" onchange="saveCheckboxes()">
+                                <span>種子消毒 (撲克拉錳浸種晾乾)</span>
+                            </label>
+                            <label class="flex items-start space-x-2 cursor-pointer">
+                                <input type="checkbox" class="rounded text-emerald-700 mt-0.5" onchange="saveCheckboxes()">
+                                <span class="font-bold text-emerald-800">播種後「澆透水」</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 節點 3 -->
+                    <div class="relative pl-8">
+                        <div class="absolute left-1.5 top-1 w-4 h-4 rounded-full bg-blue-600 border-2 border-white ring-4 ring-blue-50"></div>
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xs font-bold text-blue-900">三、開花與補鈣防空包彈</h3>
+                                <p class="text-[10px] text-blue-700 font-medium mt-0.5">補鈣期</p>
+                            </div>
+                            <span class="text-[11px] font-bold text-blue-700" id="step-3-date">2026/09/01 ~ 2026/09/10</span>
+                        </div>
+                        <div class="space-y-1.5 text-[11px] text-slate-600">
+                            <label class="flex items-start space-x-2 cursor-pointer">
+                                <input type="checkbox" class="rounded text-blue-700 mt-0.5" onchange="saveCheckboxes()">
+                                <span>追施鈣肥 (硫酸鈣 30-40kg/分地)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 節點 4-6 精簡保留 -->
+                    <div class="relative pl-8">
+                        <div class="absolute left-1.5 top-1 w-4 h-4 rounded-full bg-amber-600 border-2 border-white ring-4 ring-amber-50"></div>
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xs font-bold text-amber-950">四、中耕培土</h3>
+                            </div>
+                            <span class="text-[11px] font-bold text-amber-700" id="step-4-date">2026/09/15 ~ 2026/09/25</span>
+                        </div>
+                    </div>
+
+                    <div class="relative pl-8">
+                        <div class="absolute left-1.5 top-1 w-4 h-4 rounded-full bg-emerald-700 border-2 border-white ring-4 ring-emerald-50"></div>
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xs font-bold text-slate-800">五、病蟲害巡檢</h3>
+                            </div>
+                            <span class="text-[11px] font-bold text-slate-500" id="step-5-date">2026/10/01 ~ 2026/10/20</span>
+                        </div>
+                        <p id="step-5-warning" class="hidden text-red-700 bg-red-100/80 p-2 border border-red-200 rounded-lg font-bold text-[11px] leading-relaxed mt-1"></p>
+                    </div>
+
+                    <div class="relative pl-8">
+                        <div class="absolute left-1.5 top-1 w-4 h-4 rounded-full bg-red-600 border-2 border-white ring-4 ring-red-50"></div>
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xs font-bold text-red-900">六、採收與熱烘</h3>
+                            </div>
+                            <span class="text-[11px] font-bold text-red-700" id="step-6-date">2026/11/25 ~ 2026/12/10</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- 底部 -->
+    <footer class="bg-white border-t border-slate-100 py-3 text-center text-[10px] text-slate-400 fixed bottom-0 left-0 right-0 z-40 max-w-md mx-auto">
+        二林鎮農會 x 小米技術顧問 · 2026 智慧行動版
+    </footer>
+
+    <!-- ============== Service Worker 註冊 ============== -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // 內嵌 Service Worker（避免跨域問題）
+                const swCode = `
+                    const CACHE_NAME = 'peanut-guide-v2';
+                    const urlsToCache = [
+                        self.location.href,
+                        'https://cdn.tailwindcss.com',
+                        'https://unpkg.com/lucide@latest'
+                    ];
+
+                    self.addEventListener('install', event => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+                        );
+                        self.skipWaiting();
+                    });
+
+                    self.addEventListener('activate', event => {
+                        event.waitUntil(
+                            caches.keys().then(keys => 
+                                Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+                            )
+                        );
+                        self.clients.claim();
+                    });
+
+                    self.addEventListener('fetch', event => {
+                        if (event.request.method !== 'GET') return;
+                        event.respondWith(
+                            caches.match(event.request).then(cached => 
+                                cached || fetch(event.request).then(response => {
+                                    if (response && response.status === 200) {
+                                        const clone = response.clone();
+                                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+                                    }
+                                    return response;
+                                }).catch(() => cached)
+                            )
+                        );
+                    });
+                `;
+
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swUrl).catch(() => {
+                    // 靜默失敗，不影響主功能
+                });
+            });
+
+            // 監聽網路狀態
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+        }
+
+        function updateOnlineStatus() {
+            const banner = document.getElementById('offline-banner');
+            if (navigator.onLine) {
+                banner.classList.remove('show');
+            } else {
+                banner.classList.add('show');
+            }
+        }
+    </script>
+
+    <!-- ============== 主要邏輯 ============== -->
+    <script>
+        // 初始化圖標
+        lucide.createIcons();
+
+        // ---------- 頁籤切換 ----------
+        function switchTab(tabName) {
+            document.getElementById('content-guide').classList.add('hidden');
+            document.getElementById('content-calculator').classList.add('hidden');
+            document.getElementById('content-schedule').classList.add('hidden');
+            
+            ['guide', 'calculator', 'schedule'].forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                btn.className = "flex-1 py-2.5 text-xs font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-1 text-slate-500 hover:text-slate-800";
+            });
+
+            document.getElementById(`content-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabName}`);
+            activeBtn.className = "flex-1 py-2.5 text-xs font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-1 bg-[#1b4d3a] text-white";
+        }
+
+        // ---------- 手風琴折疊 ----------
+        function toggleSection(id) {
+            const el = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                if (icon) icon.classList.add('rotate-180');
+            } else {
+                el.classList.add('hidden');
+                if (icon) icon.classList.remove('rotate-180');
+            }
+        }
+
+        // ---------- 跨頁籤跳轉 ----------
+        function jumpToSection(sectionId) {
+            switchTab('guide');
+            const el = document.getElementById(sectionId);
+            const icon = document.getElementById(sectionId + '-icon');
+            if (el && el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                if (icon) icon.classList.add('rotate-180');
+            }
+            setTimeout(() => {
+                const headerEl = document.getElementById(sectionId + '-header');
+                if (headerEl) headerEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 150);
+        }
+
+        // ---------- 字體放大 ----------
+        let isLargeFont = false;
+        function toggleFontSize() {
+            isLargeFont = !isLargeFont;
+            const btn = document.getElementById('font-toggle-btn');
+            if (isLargeFont) {
+                document.body.classList.add('large-text');
+                btn.innerHTML = `<i data-lucide="zoom-out" class="w-3.5 h-3.5"></i><span>還原字體</span>`;
+                btn.classList.replace('bg-emerald-800', 'bg-amber-600');
+                btn.classList.replace('border-emerald-600', 'border-amber-400');
+            } else {
+                document.body.classList.remove('large-text');
+                btn.innerHTML = `<i data-lucide="zoom-in" class="w-3.5 h-3.5"></i><span>放大字體</span>`;
+                btn.classList.replace('bg-amber-600', 'bg-emerald-800');
+                btn.classList.replace('border-amber-400', 'border-emerald-600');
+            }
+            lucide.createIcons();
+        }
+
+        // ---------- 語音朗讀 ----------
+        let currentUtterance = null;
+        function speakSection(sectionId) {
+            // 停止當前朗讀
+            if (currentUtterance) {
+                window.speechSynthesis.cancel();
+                currentUtterance = null;
+                // 移除所有朗讀中按鈕的動畫
+                document.querySelectorAll('.speaking-active').forEach(b => b.classList.remove('speaking-active'));
+                return;
+            }
+
+            const section = document.getElementById(sectionId);
+            if (!section) return;
+            
+            // 提取純文字
+            const text = section.innerText.replace(/\n+/g, '。').trim();
+            if (!text) return;
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'zh-TW';
+            utterance.rate = 0.9;
+            utterance.pitch = 1.0;
+
+            // 標記當前朗讀按鈕
+            const header = document.getElementById(sectionId + '-header');
+            if (header) {
+                const speakBtn = header.querySelector('button');
+                if (speakBtn) speakBtn.classList.add('speaking-active');
+            }
+
+            utterance.onend = () => {
+                currentUtterance = null;
+                document.querySelectorAll('.speaking-active').forEach(b => b.classList.remove('speaking-active'));
+            };
+
+            utterance.onerror = () => {
+                currentUtterance = null;
+                document.querySelectorAll('.speaking-active').forEach(b => b.classList.remove('speaking-active'));
+            };
+
+            currentUtterance = utterance;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // ---------- 計算邏輯 ----------
+        function calculateAll() {
+            const area = parseFloat(document.getElementById('calc-area').value) || 0;
+            const ph = document.getElementById('calc-ph').value;
+            const price = parseFloat(document.getElementById('calc-price').value) || 0;
+            const calciumType = document.querySelector('input[name="calcium-type"]:checked').value;
+
+            // 石灰
+            let limePerFen = 0, limeTipText = "";
+            switch(ph) {
+                case 'none': limePerFen = 0; limeTipText = "pH > 6.5，無需調整。"; break;
+                case 'light': limePerFen = 50; limeTipText = "輕微偏酸 (pH 6.0-6.5)：每分地 40-60 公斤。"; break;
+                case 'medium': limePerFen = 90; limeTipText = "中度偏酸 (pH 5.5-6.0)：每分地 80-100 公斤。"; break;
+                case 'heavy': limePerFen = 135; limeTipText = "重度偏酸 (pH 5.0-5.5)：每分地 120-150 公斤，分次施。"; break;
+                case 'extreme': limePerFen = 220; limeTipText = "極度酸性 (pH < 5.0)：每分地 200-240 公斤，務必分兩次。"; break;
+            }
+            document.getElementById('lime-result').innerText = `${Math.round(limePerFen * area)} 公斤`;
+            document.getElementById('lime-tip').innerText = limeTipText;
+            document.getElementById('lime-warning-box').classList.toggle('hidden', limePerFen <= 200);
+
+            // 鈣肥
+            const calciumPerFen = calciumType === 'gypsum' ? 35 : 27.5;
+            const calciumLabel = calciumType === 'gypsum' ? '硫酸鈣 (石膏) 建議總量：' : '過磷酸鈣 建議總量：';
+            document.getElementById('calcium-label').innerText = calciumLabel;
+            document.getElementById('calcium-result').innerText = `${Math.round(calciumPerFen * area)} 公斤`;
+
+            // 收益
+            const kgToTaiJin = 1.6667;
+            const levels = [
+                { kg: 385, qtyId: 'yield-high-qty', revId: 'revenue-high' },
+                { kg: 285, qtyId: 'yield-normal-qty', revId: 'revenue-normal' },
+                { kg: 175, qtyId: 'yield-low-qty', revId: 'revenue-low' }
+            ];
+            levels.forEach(l => {
+                const kg = Math.round(l.kg * area);
+                const jin = Math.round(kg * kgToTaiJin);
+                const rev = Math.round(jin * price);
+                document.getElementById(l.qtyId).innerText = `乾莢果：${kg} 公斤／分地 (約 ${jin} 台斤／分地)`;
+                document.getElementById(l.revId).innerText = `$${rev.toLocaleString()}`;
+            });
+        }
+
+        // ---------- 客製化排程 ----------
+        function generateCustomSchedule() {
+            const dateInput = document.getElementById('plant-date').value;
+            if (!dateInput) return;
+            const baseDate = new Date(dateInput);
+
+            function fmt(addStart, addEnd) {
+                const s = new Date(baseDate); s.setDate(baseDate.getDate() + addStart);
+                const e = new Date(baseDate); e.setDate(baseDate.getDate() + addEnd);
+                const f = d => `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
+                return `${f(s)} ~ ${f(e)}`;
+            }
+
+            document.getElementById('step-1-date').innerText = fmt(-35, -15);
+            document.getElementById('step-2-date').innerText = fmt(-6, 10);
+            document.getElementById('step-3-date').innerText = fmt(30, 40);
+            document.getElementById('step-4-date').innerText = fmt(45, 55);
+            document.getElementById('step-5-date').innerText = fmt(65, 85);
+            document.getElementById('step-6-date').innerText = fmt(115, 130);
+
+            // 安全採收期警示
+            const harvestDate = new Date(baseDate); harvestDate.setDate(baseDate.getDate() + 115);
+            const diffDays = Math.ceil((harvestDate - new Date()) / (1000 * 60 * 60 * 24));
+            const warning = document.getElementById('step-5-warning');
+            if (diffDays <= 21 && diffDays >= 0) {
+                warning.innerText = "⚠️ 距預計採收已不足 21 天，請優先選用蘇力菌類資材。";
+                warning.classList.remove('hidden');
+            } else {
+                warning.classList.add('hidden');
+            }
+        }
+
+        // ---------- 💾 localStorage 資料儲存 ----------
+        function saveData() {
+            const data = {
+                area: document.getElementById('calc-area').value,
+                ph: document.getElementById('calc-ph').value,
+                price: document.getElementById('calc-price').value,
+                calciumType: document.querySelector('input[name="calcium-type"]:checked')?.value || 'gypsum',
+                plantDate: document.getElementById('plant-date').value
+            };
+            localStorage.setItem('peanut-guide-data', JSON.stringify(data));
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem('peanut-guide-data');
+            if (!saved) return;
+            try {
+                const data = JSON.parse(saved);
+                if (data.area) document.getElementById('calc-area').value = data.area;
+                if (data.ph) document.getElementById('calc-ph').value = data.ph;
+                if (data.price) document.getElementById('calc-price').value = data.price;
+                if (data.plantDate) document.getElementById('plant-date').value = data.plantDate;
+                if (data.calciumType) {
+                    const radio = document.querySelector(`input[name="calcium-type"][value="${data.calciumType}"]`);
+                    if (radio) radio.checked = true;
+                }
+            } catch(e) {}
+        }
+
+        function saveCheckboxes() {
+            const checkboxes = document.querySelectorAll('#content-schedule input[type="checkbox"]');
+            const states = Array.from(checkboxes).map(cb => cb.checked);
+            localStorage.setItem('peanut-guide-checkboxes', JSON.stringify(states));
+        }
+
+        function loadCheckboxes() {
+            const saved = localStorage.getItem('peanut-guide-checkboxes');
+            if (!saved) return;
+            try {
+                const states = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('#content-schedule input[type="checkbox"]');
+                checkboxes.forEach((cb, i) => { if (i < states.length) cb.checked = states[i]; });
+            } catch(e) {}
+        }
+
+        // ---------- 頁面初始化 ----------
+        window.onload = function() {
+            loadData();
+            calculateAll();
+            generateCustomSchedule();
+            loadCheckboxes();
+            updateOnlineStatus();
+        }
+    </script>
+</body>
+</html>
